@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>注册WebSocket</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script type="application/x-javascript"> addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false); function hideURLbar(){ window.scrollTo(0,1); } </script>
+<link href="http://localhost:8080/WebSockt/publicPage/css/style2.css" rel="stylesheet" type="text/css">
+<script src="http://localhost:8080/WebSockt/publicPage/js/jquery.min.js"></script>
+</head>
+<body>
+<script>
+	$(document).ready(function(c) {
+		/*这里判断url是否含有验证码错误提示的参数*/
+		var url=window.location.href;
+		var param=url.split("?")[1];
+		if(param!=null&&param!=""){
+		var error=param.split("=")[1];
+		if(error=="errorcode"){
+			alert("验证码错误，请重新填写");
+		}
+		}
+		
+		
+		
+		
+		/* 这里点击图片更新验证码 */
+	$('.kaptcha').click(function(){
+		var time=new Date().toLocaleTimeString();
+		var url="http://localhost:8080/WebSockt/kaptcha.jpg?t="+time;
+		$('.kaptcha').attr('src',url);
+	});	
+		
+		/*这里验证用户名是否可用*/
+		$('.username').blur(function(){
+			$.ajax({
+				type:"POST",
+				cententType:"application/json;charset=utf-8",
+				url:"http://localhost:8080/WebSockt/userServlet?action=isEnableName&username="+$('.username').val(),
+				success:function(res){
+//					alert(res);
+					var jsonObj=$.parseJSON(res);
+//					alert(jsonObj);
+//					alert(jsonObj.enable);
+					
+					if(jsonObj.enable=="false"){
+						alert("该用户名不可用");
+//						$('.username').focus()
+					}
+				}//end success
+			});
+		});
+		
+});
+/*检查表单是否有空项*/
+	function check(){
+		var frm=document.myform.elements;
+//		alert(frm.length);
+		
+		for(var i=0;i<frm.length-1;i++){
+			if(frm[i].value==""){
+				alert("该表单项不能为空！");
+				frm[i].focus();
+				return false;
+			}
+		}
+		return true;
+	}
+
+
+</script>
+ <!--SIGN UP-->
+ <h1>注册WebSocket</h1>
+<div class="login-form">
+	<div class="close"> </div>
+		<div class="head-info">
+			<label class="lbl-1"> </label>
+			<label class="lbl-2"> </label>
+			<label class="lbl-3"> </label>
+		</div>
+			<div class="clear"> </div>
+	<div class="avtar">
+		<img src="http://localhost:8080/WebSockt/publicPage/imgs/avtar.png">
+	</div>
+			<form name="myform" action="http://localhost:8080/WebSockt/userServlet" method="post" onSubmit="return check()">
+					<input type="hidden"  name="action" value="register">
+					<input type="text" class="username"  name="name" placeholder="请输入用户名" ><!--  -->
+					<input type="password" class="password"  name="password"  placeholder="请输入密码">
+					<div class="key">
+					<div class="codediv">
+					<input type="text" class="checkcode" name="checkcode"  placeholder="验证码">
+					<img class="kaptcha" src="http://localhost:8080/WebSockt/kaptcha.jpg" alt="验证码还没有加载" class="codeimg" />
+	
+					</div>
+					
+					</div>
+				
+	
+	<div class="signin">
+	  <input  class="submit" type="submit" value="注册">
+	</div>	
+  </form>
+	<div class="tip">
+		<a href="http://localhost:8080/WebSockt/publicPage/Login.html">去登陆-></a>	
+	</div>
+		
+</div>
+ 
+
+
+</body></html>

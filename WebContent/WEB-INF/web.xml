@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://java.sun.com/xml/ns/javaee" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd" version="3.0">
+  <display-name>WebSockt</display-name>
+  <welcome-file-list>
+    <welcome-file>publicPage/Login.html</welcome-file>
+
+  </welcome-file-list>
+  <error-page>
+  	<error-code>404</error-code>
+  	<location>/errorPage/404.html</location>
+  </error-page>
+  <error-page>
+  	<error-code>500</error-code>
+  	<location>/errorPage/500.html</location>
+  </error-page>
+  <servlet>
+  	<servlet-name>UserServlet</servlet-name>
+  	<servlet-class>club.do4u.Web.UserServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+  	<servlet-name>UserServlet</servlet-name>
+  	<url-pattern>/userServlet</url-pattern>
+  </servlet-mapping>
+  
+  <servlet>
+  	<servlet-name>KaptchaServlet</servlet-name>
+  	<servlet-class>com.google.code.kaptcha.servlet.KaptchaServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+  	<servlet-name>KaptchaServlet</servlet-name>
+  	<url-pattern>/kaptcha.jpg</url-pattern>
+  </servlet-mapping>
+  
+  <servlet>
+  	<servlet-name>MessageServlet</servlet-name>
+  	<servlet-class>club.do4u.Web.MessageServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+  	<servlet-name>MessageServlet</servlet-name>
+  	<url-pattern>/messageServlet</url-pattern>
+  </servlet-mapping>
+  
+  <filter>
+  	<filter-name>Filter</filter-name>
+  	<filter-class>club.do4u.filter.pageFilter</filter-class>
+  </filter>
+  <filter-mapping>
+  	<filter-name>Filter</filter-name>
+  	<url-pattern>/page/*</url-pattern>
+  </filter-mapping>
+ 
+    <filter>
+  	<filter-name>MessageFilter</filter-name>
+  	<filter-class>club.do4u.filter.MessageFilter</filter-class>
+  </filter>
+  <filter-mapping>
+  	<filter-name>MessageFilter</filter-name>
+  	<url-pattern>/messageServlet</url-pattern>
+  </filter-mapping>
+</web-app>
